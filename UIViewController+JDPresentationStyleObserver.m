@@ -155,6 +155,12 @@
         swizzled = class_getInstanceMethod(self, @selector(jd_PresentationStyleObserver_dealloc));
         method_exchangeImplementations(original, swizzled);
     }
+    else {
+        Method original, swizzled;
+        original = class_getInstanceMethod(self, @selector(viewWillAppear:));
+        swizzled = class_getInstanceMethod(self, @selector(jd_PresentationStyleObserver_viewWillAppear:));
+        method_exchangeImplementations(original, swizzled);
+    }
 }
 
 - (void)jd_PresentationStyleObserver_presentViewController:(nonnull UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^ __nullable)(void))completion
@@ -186,6 +192,34 @@
         [mediator removeStyleObserver:observer];
     }
     [self jd_PresentationStyleObserver_dealloc];
+}
+
+- (void)jd_PresentationStyleObserver_viewWillAppear:(BOOL)animated
+{
+    // On systems that don't support adaptive styles, we call the observation functions on the first call of viewWillAppear instead
+    BOOL didAppear = [[self bk_associatedValueForKey:@"jd_didAppear"] boolValue];
+    if (didAppear) {
+        return;
+    }
+    [self bk_associateValue:@TRUE withKey:@"jd_didAppear"];
+    NSMutableSet *presentationStyleObservers = [self bk_associatedValueForKey:@"jd_presentationStyleObservers"];
+    for (id<JDPresentationControllerStyleObserver> observer in presentationStyleObservers) {
+        UIModalPresentationStyle style;
+        if (self.navigationController != nil) {
+            style = self.navigationController.modalPresentationStyle;
+        }
+        else if (self.tabBarController != nil) {
+            style = self.tabBarController.modalPresentationStyle;
+        }
+        else {
+            style = self.modalPresentationStyle;
+        }
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && style == UIModalPresentationPopover) {
+            style = UIModalPresentationFullScreen;
+        }
+        [observer presentationControllerChangedStyle:style ofViewController:self];
+    }
+    [self jd_PresentationStyleObserver_viewWillAppear:animated];
 }
 
 - (JDPresentationControllerDelegateMediator *)_getMediator:(BOOL)createIfNil topViewController:(UIViewController *)topViewController
