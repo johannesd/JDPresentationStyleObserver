@@ -44,7 +44,7 @@
 
 - (void)removeStyleObserver:(id<JDPresentationControllerStyleObserver>)observer
 {
-    NSSet *res = [styleObservers objectsPassingTest:^BOOL(NSArray  __nonnull *obj, BOOL * __nonnull stop) {
+    NSSet *res = [styleObservers objectsPassingTest:^BOOL(NSArray * __nonnull obj, BOOL * __nonnull stop) {
         return [obj[0] nonretainedObjectValue] == observer;
     }];
     for (NSObject *obj in res) {
@@ -57,10 +57,10 @@
     return [styleObservers copy];
 }
 
-- (void)dealloc
-{
-    NSLog(@"dealloc JDPresentationControllerDelegateMediator");
-}
+//- (void)dealloc
+//{
+//    NSLog(@"dealloc JDPresentationControllerDelegateMediator");
+//}
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
 {

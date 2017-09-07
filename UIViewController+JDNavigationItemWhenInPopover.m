@@ -31,10 +31,10 @@
     return self;
 }
 
-- (void)dealloc
-{
-    NSLog(@"dealloc JDNavigationItem");
-}
+//- (void)dealloc
+//{
+//    NSLog(@"dealloc JDNavigationItem");
+//}
 
 @end
 
@@ -64,10 +64,10 @@
     self.viewController.navigationItem.rightBarButtonItems = navigationItem.rightBarButtonItems;
 }
 
-- (void)dealloc
-{
-    NSLog(@"dealloc JDNavigationItemWhenInPopoverSwitcher");
-}
+//- (void)dealloc
+//{
+//    NSLog(@"dealloc JDNavigationItemWhenInPopoverSwitcher");
+//}
 
 @end
 
