@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "JDPresentationStyleObserver"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "JDPresentationStyleObserver"
   s.description  = <<-DESC
     JDPresentationStyleObserver
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   }
   s.author       = { "Johannes Doerr" => "mail@johannesdoerr.de" }
   s.source       = { :git => "https://github.com/johannesd/JDPresentationStyleObserver.git" }
-  s.platform     = :ios, '5.0'
+  s.platform     = :ios, '8.0'
   s.source_files  = '*.{h,m}'
 
   s.exclude_files = 'Classes/Exclude'
